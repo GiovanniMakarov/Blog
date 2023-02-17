@@ -2,18 +2,25 @@ import api from "../../services/api";
 
 import actionTypes from "./actionTypes";
 
-const toggleLoading = (value) => {
+const _toggleLoading = (value) => {
   return { type: actionTypes.LOADING, payload: value };
 };
 
-const setPage = (page) => {
+const _setPage = (page) => {
   return { type: actionTypes.SET_PAGE, page };
+};
+
+const _toggleUserProcessing = (value) => {
+  return {
+    type: actionTypes.SET_USER_PROCESSING,
+    value,
+  };
 };
 
 const loadArticles = (page = 1) => {
   return async (dispatch) => {
-    dispatch(toggleLoading(true));
-    dispatch(setPage(page));
+    dispatch(_toggleLoading(true));
+    dispatch(_setPage(page));
 
     try {
       const res = await api.getArticles(page);
@@ -23,13 +30,13 @@ const loadArticles = (page = 1) => {
       dispatch({ type: actionTypes.ERROR_LOADING });
     }
 
-    dispatch(toggleLoading(false));
+    dispatch(_toggleLoading(false));
   };
 };
 
 const loadCurrentArticle = (slug) => {
   return async (dispatch) => {
-    dispatch(toggleLoading(true));
+    dispatch(_toggleLoading(true));
 
     try {
       const res = await api.getArticleBySlug(slug);
@@ -39,9 +46,75 @@ const loadCurrentArticle = (slug) => {
       dispatch({ type: actionTypes.ERROR_LOADING });
     }
 
-    dispatch(toggleLoading(false));
+    dispatch(_toggleLoading(false));
   };
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { loadArticles, loadCurrentArticle };
+const createUser = ({ username, email, password }) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const res = await api.createUser(username, email, password);
+      dispatch({ type: actionTypes.CREATE_ACCOUNT, response: res });
+      dispatch(_toggleUserProcessing(false));
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+const loginUser = ({ email, password }) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const res = await api.loginUser(email, password);
+      dispatch({ type: actionTypes.SUCCESS_LOGIN, response: res.data.user });
+      dispatch(_toggleUserProcessing(false));
+      localStorage.setItem("RealWorldToken", res.data.user.token);
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+const getUserDataByToken = () => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("RealWorldToken");
+      if (!token) {
+        throw new Error("No authorization token");
+      }
+      const res = await api.getUserDataByToken(token);
+      dispatch({ type: actionTypes.SUCCESS_LOGIN, response: res.user });
+      localStorage.setItem("RealWorldToken", res.user.token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+const logoutUser = () => {
+  localStorage.removeItem("RealWorldToken");
+  return { type: actionTypes.LOGOUT };
+};
+
+const changeUserData = (data, token) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const res = await api.changeUserData(data, token);
+      dispatch({ type: actionTypes.SUCCESS_CHANGE, response: res });
+      dispatch({ type: actionTypes.SUCCESS_LOGIN, response: res.user });
+      dispatch(_toggleUserProcessing(false));
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+export { loadArticles, loadCurrentArticle, createUser, loginUser, logoutUser, changeUserData, getUserDataByToken };

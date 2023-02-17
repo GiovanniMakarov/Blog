@@ -20,6 +20,63 @@ class Api {
         throw err;
       });
   }
+
+  loginUser(email, password) {
+    return axios.post(`${this._base}/users/login`, {
+      user: {
+        email,
+        password,
+      },
+    });
+  }
+
+  getUserDataByToken(token) {
+    return axios({
+      url: `${this._base}/user`,
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((resp) => resp.data)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  createUser(username, email, password) {
+    return axios
+      .post(`${this._base}/users`, {
+        user: {
+          username,
+          email,
+          password,
+        },
+      })
+      .then((resp) => resp.data)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  changeUserData(data, token) {
+    return axios({
+      url: `${this._base}/user`,
+      method: "PUT",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      data: {
+        user: {
+          ...data,
+        },
+      },
+    })
+      .then((resp) => resp.data)
+      .catch((err) => {
+        throw err;
+      });
+  }
 }
 
 const api = new Api();

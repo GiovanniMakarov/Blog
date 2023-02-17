@@ -22,7 +22,8 @@
   color: rgba(0, 0, 0, 0.85);
 }
 
-header a {
+header a,
+button {
   font: inherit;
   text-decoration: none;
 
@@ -48,7 +49,7 @@ header a {
   }
 }
 
-.btnGroup {
+.profileGroup {
   display: flex;
   align-items: center;
   gap: 45px;
@@ -65,7 +66,11 @@ header a {
 
   width: 109px;
   height: 51px;
+}
 
+.signUpButton,
+.createArticleBtn,
+.logOutBtn {
   &:hover {
     box-shadow: 0 6px 2px -2px rgba(33, 33, 33, 0.2);
   }
@@ -73,4 +78,27 @@ header a {
   &:active {
     box-shadow: none;
   }
+}
+
+.createArticleBtn {
+  color: #52c41a;
+  font-size: 14px;
+  line-height: 22px;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  padding: 6px 10px;
+}
+
+.logOutBtn {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 18px;
+  line-height: 28px;
+  padding: 8px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  border-radius: 5px;
+}
+
+.profileBtn {
+  display: flex;
+  gap: 13px;
 }
