@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { logoutUser } from "../../redux/actions/actions";
+import { logoutUser, loadArticles } from "../../redux/actions/actions";
 import defaultAvatar from "../../assets/defaultAvatar.png";
 
 import classes from "./header.module.scss";
@@ -13,9 +13,13 @@ function Header() {
 
   const dispatch = useDispatch();
 
+  const onFeedRefresh = () => {
+    dispatch(loadArticles());
+  };
+
   return (
     <header className={classes.header}>
-      <Link to="/articles" className={classes.name}>
+      <Link to="/articles" className={classes.name} onClick={onFeedRefresh}>
         Realworld Blog
       </Link>
 
@@ -47,7 +51,7 @@ function profile(flag, userData, dispatch) {
 
   return (
     <>
-      <Link to="/sign-in" className={classes.createArticleBtn}>
+      <Link to="/new-article" className={classes.createArticleBtn}>
         Create article
       </Link>
       <Link to="/profile" className={classes.profileBtn}>

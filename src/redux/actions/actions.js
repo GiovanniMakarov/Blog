@@ -83,6 +83,7 @@ const loginUser = ({ email, password }) => {
 const getUserDataByToken = () => {
   return async (dispatch) => {
     try {
+      dispatch(_toggleUserProcessing(true));
       const token = localStorage.getItem("RealWorldToken");
       if (!token) {
         throw new Error("No authorization token");
@@ -90,8 +91,10 @@ const getUserDataByToken = () => {
       const res = await api.getUserDataByToken(token);
       dispatch({ type: actionTypes.SUCCESS_LOGIN, response: res.user });
       localStorage.setItem("RealWorldToken", res.user.token);
+      dispatch(_toggleUserProcessing(false));
     } catch (error) {
       console.log(error);
+      dispatch(_toggleUserProcessing(false));
     }
   };
 };
@@ -101,13 +104,15 @@ const logoutUser = () => {
   return { type: actionTypes.LOGOUT };
 };
 
-const changeUserData = (data, token) => {
+const changeUserData = (data) => {
   return async (dispatch) => {
     try {
       dispatch(_toggleUserProcessing(true));
+      const token = localStorage.getItem("RealWorldToken");
       const res = await api.changeUserData(data, token);
       dispatch({ type: actionTypes.SUCCESS_CHANGE, response: res });
       dispatch({ type: actionTypes.SUCCESS_LOGIN, response: res.user });
+      localStorage.setItem("RealWorldToken", res.user.token);
       dispatch(_toggleUserProcessing(false));
     } catch (error) {
       dispatch(_toggleUserProcessing(false));
@@ -117,4 +122,61 @@ const changeUserData = (data, token) => {
   };
 };
 
-export { loadArticles, loadCurrentArticle, createUser, loginUser, logoutUser, changeUserData, getUserDataByToken };
+const createArticle = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.createArticle(data, token);
+      dispatch(_toggleUserProcessing(false));
+      console.log(res);
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+const changeArticle = (slug, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.changeArticle(slug, data, token);
+      dispatch(_toggleUserProcessing(false));
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+const deleteArticle = (slug) => {
+  return async (dispatch) => {
+    try {
+      dispatch(_toggleUserProcessing(true));
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.deleteArticle(slug, token);
+      dispatch(_toggleUserProcessing(false));
+    } catch (error) {
+      dispatch(_toggleUserProcessing(false));
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
+export {
+  loadArticles,
+  loadCurrentArticle,
+  createUser,
+  loginUser,
+  logoutUser,
+  changeUserData,
+  getUserDataByToken,
+  createArticle,
+  changeArticle,
+  deleteArticle,
+};

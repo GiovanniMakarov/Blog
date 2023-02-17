@@ -38,6 +38,22 @@ const validationRules = {
       message: "Enter correct url",
     },
   },
+  body: {
+    required: "Enter article text",
+    maxLength: { value: 5000, message: "Too long text, max 5000 symbols" },
+  },
+  title: {
+    required: "Enter article title",
+    maxLength: { value: 100, message: "Too long title, max 100 symbols" },
+  },
+  description: {
+    required: "Enter article description",
+    maxLength: { value: 300, message: "Too long description, max 300 symbols" },
+  },
+  tag: {
+    required: "Enter tag",
+    maxLength: { value: 30, message: "Too long tag, max 30 symbols" },
+  },
 };
 
 export default validationRules;

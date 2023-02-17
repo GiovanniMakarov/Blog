@@ -4,7 +4,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, O
 
 import { getUserDataByToken } from "../../redux/actions/actions";
 import Header from "../header";
-import { FeedPage, ArticlePage, SignInPage, CreateAccountPage, EditAccountPage } from "../pages";
+import { FeedPage, ArticlePage, SignInPage, CreateAccountPage, EditAccountPage, CreateArticlePage } from "../pages";
 
 // eslint-disable-next-line no-unused-vars
 import classes from "./app.module.scss";
@@ -31,9 +31,11 @@ function App() {
         <Route path="/" element={<FeedPage />} />
         <Route path="/articles" element={<FeedPage />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
+        <Route path="/articles/:slug/edit" element={<CreateArticlePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<CreateAccountPage />} />
         <Route path="/profile" element={<EditAccountPage />} />
+        <Route path="/new-article" element={<CreateArticlePage />} />
       </Route>
     )
   );

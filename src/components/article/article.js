@@ -8,11 +8,12 @@ import { format } from "date-fns";
 import defaultAvatar from "../../assets/defaultAvatar.png";
 import Tags from "../tags";
 
+import ArticleControlButtons from "./articleControlButtons";
 import classes from "./article.module.scss";
 
 function Article(props) {
   const navigate = useNavigate();
-  const { full, data } = props;
+  const { full, data, ownership } = props;
 
   const { slug, title, tagList, favoritesCount, description, body, author, createdAt } = data;
   const { username, image } = author;
@@ -42,18 +43,19 @@ function Article(props) {
       </div>
       <p className={descriptionClassName}>{description}</p>
 
-      {full && FullArticle(body)}
+      {full && fullArticle(body)}
 
       <div className={classes.profileWrapper}>
         <span className={classes.profileName}>{username}</span>
         <span className={classes.date}>{format(new Date(createdAt), "MMMM d, yyyy")}</span>
         <img src={avatar} alt="avatar" className={classes.avatar} />
+        {full && ownership && <ArticleControlButtons data={data} />}
       </div>
     </article>
   );
 }
 
-function FullArticle(body) {
+function fullArticle(body) {
   return <ReactMarkdown className={classes.textBody}>{body}</ReactMarkdown>;
 }
 

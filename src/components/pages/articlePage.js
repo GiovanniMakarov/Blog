@@ -12,13 +12,12 @@ export default function ArticlePage() {
   const { slug } = useParams();
   const { articles, article } = useSelector((store) => store.content.data);
   const { data, loading } = useSelector((state) => state.content);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!articles) {
-      dispatch(loadCurrentArticle(slug));
-    }
+    dispatch(loadCurrentArticle(slug));
   }, []);
 
   if (loading || data.length === 0) {
@@ -34,9 +33,11 @@ export default function ArticlePage() {
     currentArticle = articles[idx];
   }
 
+  const ownership = currentArticle?.author?.username === user?.username;
+
   return (
     <div className={classes.fullArticleWrapper}>
-      <Article slug={slug} data={currentArticle} full />
+      <Article slug={slug} data={currentArticle} ownership={ownership} full />
     </div>
   );
 }

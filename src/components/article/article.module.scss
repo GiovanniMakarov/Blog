@@ -108,7 +108,8 @@ button {
   display: grid;
   grid-template-areas:
     "name avatar"
-    "date avatar";
+    "date avatar"
+    "controlButtons controlButtons";
   max-height: 46px;
   column-gap: 12px;
 }
@@ -135,4 +136,38 @@ button {
 
   align-self: center;
   border-radius: 50%;
+}
+
+.controlWrapper {
+  grid-area: controlButtons;
+  display: flex;
+  gap: 12px;
+}
+
+.controlButton {
+  padding: 5px 18px;
+  border: 1px solid;
+
+  border-radius: 5px;
+  margin-top: 10px;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transition: 0.01s ease-in;
+    transform: translateY(0px);
+  }
+}
+
+.buttonDelete {
+  color: #f5222d;
+  border-color: #f5222d;
+}
+
+.buttonEdit {
+  color: #52c41a;
+  border-color: #52c41a;
 }

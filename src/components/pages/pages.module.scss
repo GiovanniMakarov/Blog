@@ -25,6 +25,14 @@
   box-sizing: border-box;
 }
 
+.articleForm {
+  max-width: 938px;
+
+  .form {
+    gap: 21px;
+  }
+}
+
 h3 {
   margin: 0;
   padding: 0;
@@ -170,4 +178,55 @@ h3 {
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
+}
+
+.articleSubmit {
+  max-width: 319px;
+}
+
+.inputText {
+  min-height: 192px;
+  max-width: 100%;
+  min-width: 100%;
+  font-family: inherit;
+}
+.tagsBlock {
+  display: flex;
+  gap: 20px;
+}
+
+.tag {
+  // max-width: 50%;
+  display: flex;
+  gap: 17px;
+}
+
+.inputTag {
+  max-width: 300px;
+  width: 300px;
+}
+
+.tagButton {
+  border: 1px solid;
+
+  border-radius: 4px;
+  padding: 8px 40px;
+}
+
+.tagDelete {
+  color: #f5222d;
+  border-color: #f5222d;
+  max-width: 120px;
+}
+
+.tagAdd {
+  align-self: flex-end;
+  color: #1890ff;
+  border-color: #1890ff;
+}
+
+.tagInputsColumn {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
 }

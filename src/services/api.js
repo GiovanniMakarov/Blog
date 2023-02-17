@@ -4,8 +4,9 @@ class Api {
   _base = "https://blog.kata.academy/api";
 
   getArticles(page) {
+    const offset = (page - 1) * 20;
     return axios
-      .get(`${this._base}/articles?offset=${page}`)
+      .get(`${this._base}/articles?offset=${offset}`)
       .then((response) => response.data)
       .catch((err) => {
         throw err;
@@ -73,6 +74,58 @@ class Api {
       },
     })
       .then((resp) => resp.data)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  createArticle(data, token) {
+    return axios({
+      url: `${this._base}/articles`,
+      method: "POST",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      data: {
+        article: {
+          ...data,
+        },
+      },
+    })
+      .then((resp) => resp)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  changeArticle(slug, data, token) {
+    return axios({
+      url: `${this._base}/articles/${slug}`,
+      method: "PUT",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      data: {
+        article: {
+          ...data,
+        },
+      },
+    })
+      .then((resp) => resp)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  deleteArticle(slug, token) {
+    return axios({
+      url: `${this._base}/articles/${slug}`,
+      method: "DELETE",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((resp) => resp)
       .catch((err) => {
         throw err;
       });

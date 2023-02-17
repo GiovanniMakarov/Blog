@@ -4,7 +4,7 @@ import actionTypes from "../actions/actionTypes";
 const initialState = {
   user: null,
   isAuthorized: false,
-  isUserProcessing: false,
+  isUserProcessing: true,
 };
 
 const reducerUser = (state = initialState, action) => {
@@ -29,7 +29,6 @@ const reducerUser = (state = initialState, action) => {
       };
 
     case actionTypes.LOGOUT:
-      console.log("logout");
       return {
         ...state,
         user: null,
