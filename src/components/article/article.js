@@ -28,7 +28,7 @@ function Article(props) {
   const articleTitle = full ? (
     <ReactMarkdown className={classes.title}>{title}</ReactMarkdown>
   ) : (
-    <a onClick={() => navigate(slug)}>
+    <a onClick={() => navigate(`/articles/${slug}`)}>
       <ReactMarkdown className={classes.title}>{title}</ReactMarkdown>
     </a>
   );
