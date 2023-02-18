@@ -12,9 +12,7 @@ function ListArticles() {
   const { data, loading } = useSelector((state) => state.content);
 
   useEffect(() => {
-    if (!data.articles) {
-      dispatch(loadArticles());
-    }
+    dispatch(loadArticles());
   }, []);
 
   if (loading || !data.articles) {

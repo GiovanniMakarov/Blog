@@ -33,6 +33,24 @@ const reducerContent = (state = initialState, action) => {
         page: action.page,
       };
 
+    case actionTypes.REPLACE_ARTICLE: {
+      if (state.data.article) {
+        return {
+          ...state,
+          data: action.newArticle,
+        };
+      }
+      const oldArticles = state.data.articles;
+      const idx = oldArticles.findIndex((art) => art.slug === action.newArticle.article.slug);
+      const newArr = [...oldArticles.slice(0, idx), action.newArticle.article, ...oldArticles.slice(idx + 1)];
+
+      return {
+        ...state,
+        data: { articles: newArr, articlesCount: state.data.articlesCount },
+      };
+    }
+
+    // eslint-disable-next-line no-fallthrough
     default:
       return state;
   }

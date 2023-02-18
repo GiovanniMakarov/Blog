@@ -49,6 +49,10 @@ button {
   cursor: pointer;
 }
 
+.like {
+  display: flex;
+}
+
 .likeBtn {
   width: 34px;
   align-self: center;
@@ -58,25 +62,51 @@ button {
 
   transition: 0.1s ease-in-out;
   position: relative;
+  background-repeat: no-repeat;
 
-  &:hover {
-    color: red;
+  &.likedTrue {
+    &::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 0.5em;
+      background-image: url(../../assets/red-heart-icon.svg);
+      background-position: center;
+      background-size: contain;
+
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &.likedFalse {
+    &::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 0.5em;
+      background-image: url(../../assets//like.svg);
+      background-size: contain;
+      background-position: center;
+
+      width: 16px;
+      height: 16px;
+    }
   }
 
   &:active {
     transform: scale(0.98);
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    left: -8px;
-    top: 0.5em;
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   left: -8px;
+  //   top: 0.5em;
 
-    background-image: url(../../assets//like.svg);
-    width: 16px;
-    height: 16px;
-  }
+  //   width: 16px;
+  //   height: 16px;
+  // }
 }
 
 .profileWrapper {
@@ -102,6 +132,10 @@ button {
 
 .textBody {
   grid-area: body;
+
+  p + p {
+    margin-top: 15px;
+  }
 }
 
 .profileWrapper {

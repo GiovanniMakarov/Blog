@@ -4,18 +4,22 @@
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
 
 import defaultAvatar from "../../assets/defaultAvatar.png";
 import Tags from "../tags";
+import { toggleLikeArticle } from "../../redux/actions/actions";
 
 import ArticleControlButtons from "./articleControlButtons";
 import classes from "./article.module.scss";
 
 function Article(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { full, data, ownership } = props;
+  const { isAuthorized } = useSelector((state) => state.user);
 
-  const { slug, title, tagList, favoritesCount, description, body, author, createdAt } = data;
+  const { slug, title, tagList, favoritesCount, description, body, author, createdAt, favorited } = data;
   const { username, image } = author;
   const avatar = image || defaultAvatar;
 
@@ -29,11 +33,23 @@ function Article(props) {
     </a>
   );
 
+  const likeButtonClass = favorited
+    ? `${classes.likeBtn} ${classes.likedTrue}`
+    : `${classes.likeBtn} ${classes.likedFalse}`;
+
+  const onLiked = () => {
+    if (isAuthorized) {
+      dispatch(toggleLikeArticle(slug, favorited));
+    } else {
+      navigate("/sign-in");
+    }
+  };
+
   return (
     <article className={classes.article}>
       <span className={classes.titleGroup}>
         {articleTitle}
-        <button type="button" className={classes.likeBtn}>
+        <button type="button" className={likeButtonClass} onClick={onLiked}>
           {favoritesCount}
         </button>
       </span>

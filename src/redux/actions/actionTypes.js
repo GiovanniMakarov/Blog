@@ -9,6 +9,7 @@ const actionTypes = {
   LOGOUT: "LOGOUT",
   SUCCESS_CHANGE: "SUCCESS_CHANGE",
   SET_USER_PROCESSING: "SET_USER_PROCESSING",
+  REPLACE_ARTICLE: "REPLACE_ARTICLE",
 };
 
 export default actionTypes;

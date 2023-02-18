@@ -3,11 +3,16 @@ import axios from "axios";
 class Api {
   _base = "https://blog.kata.academy/api";
 
-  getArticles(page) {
+  getArticles(page, token) {
     const offset = (page - 1) * 20;
-    return axios
-      .get(`${this._base}/articles?offset=${offset}`)
-      .then((response) => response.data)
+    const headers = token ? { Authorization: `Token ${token}` } : null;
+
+    return axios({
+      url: `${this._base}/articles?offset=${offset}`,
+      method: "GET",
+      headers,
+    })
+      .then((resp) => resp.data)
       .catch((err) => {
         throw err;
       });
@@ -121,6 +126,22 @@ class Api {
     return axios({
       url: `${this._base}/articles/${slug}`,
       method: "DELETE",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((resp) => resp)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  toggleLike(slug, token, isFavoriteNow) {
+    const method = isFavoriteNow ? "DELETE" : "POST";
+
+    return axios({
+      url: `${this._base}/articles/${slug}/favorite`,
+      method,
       headers: {
         Authorization: `Token ${token}`,
       },

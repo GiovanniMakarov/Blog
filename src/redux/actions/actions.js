@@ -23,7 +23,8 @@ const loadArticles = (page = 1) => {
     dispatch(_setPage(page));
 
     try {
-      const res = await api.getArticles(page);
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.getArticles(page, token);
       dispatch({ type: actionTypes.SUCCESS_LOADING, data: res });
     } catch (err) {
       console.log(err);
@@ -168,6 +169,19 @@ const deleteArticle = (slug) => {
   };
 };
 
+const toggleLikeArticle = (slug, isFavoriteNow) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.toggleLike(slug, token, isFavoriteNow);
+      dispatch({ type: actionTypes.REPLACE_ARTICLE, newArticle: res.data });
+    } catch (error) {
+      console.log(error);
+      throw error?.response?.data?.errors;
+    }
+  };
+};
+
 export {
   loadArticles,
   loadCurrentArticle,
@@ -179,4 +193,5 @@ export {
   createArticle,
   changeArticle,
   deleteArticle,
+  toggleLikeArticle,
 };
