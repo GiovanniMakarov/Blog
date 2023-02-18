@@ -40,7 +40,8 @@ const loadCurrentArticle = (slug) => {
     dispatch(_toggleLoading(true));
 
     try {
-      const res = await api.getArticleBySlug(slug);
+      const token = localStorage.getItem("RealWorldToken");
+      const res = await api.getArticleBySlug(slug, token);
       dispatch({ type: actionTypes.SUCCESS_LOADING, data: res });
     } catch (err) {
       console.log(err);

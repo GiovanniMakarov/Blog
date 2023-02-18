@@ -18,10 +18,15 @@ class Api {
       });
   }
 
-  getArticleBySlug(slug) {
-    return axios
-      .get(`${this._base}/articles/${slug}`)
-      .then((response) => response.data)
+  getArticleBySlug(slug, token) {
+    const headers = token ? { Authorization: `Token ${token}` } : null;
+
+    return axios({
+      url: `${this._base}/articles/${slug}`,
+      method: "GET",
+      headers,
+    })
+      .then((resp) => resp.data)
       .catch((err) => {
         throw err;
       });
