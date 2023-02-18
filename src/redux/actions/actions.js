@@ -131,7 +131,6 @@ const createArticle = (data) => {
       const token = localStorage.getItem("RealWorldToken");
       const res = await api.createArticle(data, token);
       dispatch(_toggleUserProcessing(false));
-      console.log(res);
     } catch (error) {
       dispatch(_toggleUserProcessing(false));
       console.log(error);
