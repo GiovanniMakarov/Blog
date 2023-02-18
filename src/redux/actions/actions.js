@@ -46,6 +46,7 @@ const loadCurrentArticle = (slug) => {
     } catch (err) {
       console.log(err);
       dispatch({ type: actionTypes.ERROR_LOADING });
+      throw err;
     }
 
     dispatch(_toggleLoading(false));

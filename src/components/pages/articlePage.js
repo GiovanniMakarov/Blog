@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { loadCurrentArticle } from "../../redux/actions/actions";
 import Article from "../article";
 import Spinner from "../spinner";
 
@@ -13,12 +11,6 @@ export default function ArticlePage() {
   const { articles, article } = useSelector((store) => store.content.data);
   const { data, loading } = useSelector((state) => state.content);
   const { user } = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(loadCurrentArticle(slug));
-  }, []);
 
   if (loading || data.length === 0) {
     return <Spinner />;

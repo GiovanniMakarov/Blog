@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Outlet } from "react-router-dom";
 
-import { getUserDataByToken } from "../../redux/actions/actions";
+import { getUserDataByToken, loadCurrentArticle } from "../../redux/actions/actions";
 import Header from "../header";
+import Error from "../error";
 import { FeedPage, ArticlePage, SignInPage, CreateAccountPage, EditAccountPage, CreateArticlePage } from "../pages";
 
 // eslint-disable-next-line no-unused-vars
@@ -27,10 +28,17 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<AppLayout />}>
+      <Route path="/" element={<AppLayout />} errorElement={<Error />}>
         <Route path="/" element={<FeedPage />} />
         <Route path="/articles" element={<FeedPage />} />
-        <Route path="/articles/:slug" element={<ArticlePage />} />
+        <Route
+          path="/articles/:slug"
+          element={<ArticlePage />}
+          loader={async ({ params }) => {
+            await dispatch(loadCurrentArticle(params.slug));
+            return null;
+          }}
+        />
         <Route path="/articles/:slug/edit" element={<CreateArticlePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<CreateAccountPage />} />
