@@ -92,11 +92,11 @@ function EditAccountPage() {
             type="url"
             className={classes.input}
             placeholder="Avatar image"
-            style={errors?.avatarURL && { outline: "1px solid red" }}
-            {...register("avatarURL", validationRules.url)}
+            style={errors?.image && { outline: "1px solid red" }}
+            {...register("image", validationRules.url)}
             defaultValue={image || ""}
           />
-          {errors?.avatarURL && <span className={classes.errorMessage}>{errors?.avatarURL?.message}</span>}
+          {errors?.image && <span className={classes.errorMessage}>{errors?.image?.message}</span>}
         </label>
         {submitButton}
       </form>

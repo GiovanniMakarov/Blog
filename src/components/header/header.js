@@ -43,7 +43,9 @@ function profile(flag, userData, dispatch) {
     );
   }
 
-  const { username } = userData;
+  const { username, image } = userData;
+
+  const avatar = image || defaultAvatar;
 
   const onLogOut = () => {
     dispatch(logoutUser());
@@ -56,7 +58,7 @@ function profile(flag, userData, dispatch) {
       </Link>
       <Link to="/profile" className={classes.profileBtn}>
         {username}
-        <img src={defaultAvatar} alt="avatar" />
+        <img src={avatar} alt="avatar" className={classes.avatar} width="46px" height="46px" />
       </Link>
       <Link to="/sign-in" className={classes.logOutBtn} onClick={onLogOut}>
         Log Out
